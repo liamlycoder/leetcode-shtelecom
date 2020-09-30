@@ -10,4 +10,4 @@ class Solution:
 
 
 if __name__ == '__main__':
-    print(Solution().fib(8))
+    print(Solution().fib(1))
