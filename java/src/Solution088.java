@@ -2,7 +2,7 @@
  * @author liamcoder
  * @date 2020/12/1 8:47
  */
-public class Solution88 {
+public class Solution088 {
     public void merge(int[] nums1, int m, int[] nums2, int n) {
         int index1 = m - 1;
         int index2 = n - 1;
