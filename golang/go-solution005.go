@@ -7,12 +7,12 @@ func longestPalindrome(s string) string {
 	for i := 0; i < n; i++ {
 		dp[i] = make([]int, n)
 	}
-	for l := 0; l < n; l++ {
-		for i := 0; i + l < n; i++ {
-			j := i + l
-			if l == 0 {
+	for length := 0; length < n; length++ {
+		for i := 0; i + length < n; i++ {
+			j := i + length
+			if length == 0 {
 				dp[i][j] = 1
-			} else if l == 1 {
+			} else if length == 1 {
 				if s[i] == s[j] {
 					dp[i][j] = 1
 				}
@@ -21,8 +21,8 @@ func longestPalindrome(s string) string {
 					dp[i][j] = dp[i + 1][j - 1]
 				}
 			}
-			if dp[i][j] > 0 && l + 1 > len(result) {
-				result = s[i:i+l+1]
+			if dp[i][j] > 0 && length + 1 > len(result) {
+				result = s[i: i+length+1]
 			}
 		}
 	}
