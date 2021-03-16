@@ -17,13 +17,6 @@ func lengthOfLongestSubstring(s string) int {
 	return result
 }
 
-func max(x, y int) int {
-	if x > y {
-		return x
-	} else {
-		return y
-	}
-}
 
 func main() {
 	s := "abcdefg"
