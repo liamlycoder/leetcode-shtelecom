@@ -1,12 +1,5 @@
 package main
 
-func min(x, y int) int {
-	if x > y {
-		return y
-	} else {
-		return x
-	}
-}
 
 func getKthElement(nums1, nums2 []int, k int)  int {
 	index1, index2 := 0, 0
