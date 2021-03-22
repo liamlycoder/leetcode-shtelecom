@@ -3,16 +3,16 @@ package main
 func dailyTemperatures(T []int) []int {
 	n := len(T)
 	result := make([]int, n)
-	for i := range T {
-		count := 0
-		for j := i + 1; j < n; j++ {
-			if T[j] <= T[i] {
-				count++
-			} else {
-				break
-			}
+	var stack []int
+
+	for i := 0; i < n; i++ {
+		temp := T[i]
+		for len(stack) > 0 && temp > T[stack[len(stack) - 1]] {
+			prevIndex := stack[len(stack) - 1]
+			stack = stack[:len(stack) - 1]
+			result[prevIndex] = i - prevIndex
 		}
-		result[i] = count
+		stack = append(stack, i)
 	}
 	return result
 }
