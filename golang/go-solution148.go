@@ -1,68 +1,50 @@
 package main
 
-func mergeList(head1, head2 *ListNode) *ListNode {
-	dummyHead := &ListNode{}
-	temp, temp1, temp2 := dummyHead, head1, head2
-	for temp1 != nil && temp2 != nil {
-		if temp1.Val <= temp2.Val {
-			temp.Next = temp1
-			temp1 = temp1.Next
+
+// 归并两个有序链表
+func mergeList(l1, l2 *ListNode) *ListNode {
+	dummyNode := &ListNode{}
+	cur := dummyNode
+	for l1 != nil && l2 != nil {
+		if l1.Val < l2.Val {
+			cur.Next = l1
+			l1 = l1.Next
 		} else {
-			temp.Next = temp2
-			temp2 = temp2.Next
+			cur.Next = l2
+			l2 = l2.Next
 		}
-		temp = temp.Next
+		cur = cur.Next
+	}
+	if l1 != nil {
+		cur.Next = l1
+	}
+	if l2 != nil {
+		cur.Next = l2
 	}
 
-	if temp1 != nil {
-		temp.Next = temp1
-	} else if temp2 != nil{
-		temp.Next = temp2
-	}
-	return dummyHead.Next
+	return dummyNode.Next
 }
 
 func sortList(head *ListNode) *ListNode {
-	if head == nil {
-		return nil
+	// 链表为空或者只有一个元素的时候不用进行排序
+	if head == nil || head.Next == nil {
+		return head
 	}
 
-	length := 0
-	for node := head; node != nil; node = node.Next {
-		length++
+	// 下面用快慢指针来寻找需要分裂的中点位置
+	slow, fast := head, head
+	var preSlow *ListNode = nil  // preSlow保存了slow的前一个节点
+	for fast != nil && fast.Next != nil {
+		preSlow = slow
+		slow = slow.Next
+		fast = fast.Next.Next
 	}
 
-	dummyHead := &ListNode{Next: head}
-	for subLength := 1; subLength < length; subLength<<=1 {
-		prev, cur := dummyHead, dummyHead.Next
-		for cur != nil {
-			head1 := cur
-			for i := 1; i < subLength && cur.Next != nil; i++ {
-				cur = cur.Next
-			}
-
-			head2 := cur.Next
-			cur.Next = nil
-			cur = head2
-			for i := 1; i < subLength && cur != nil && cur.Next != nil; i++ {
-				cur = cur.Next
-			}
-
-			var next *ListNode
-			if cur != nil {
-				next = cur.Next
-				cur.Next = nil
-			}
-
-			prev.Next = mergeList(head1, head2)
-
-			for prev.Next != nil {
-				prev = prev.Next
-			}
-			cur = next
-		}
-	}
-	return dummyHead.Next
+	// 然后从中点分裂，左右两部分进行递归排序
+	preSlow.Next = nil
+	left := sortList(head)
+	right := sortList(slow)
+	return mergeList(left, right)
 }
 
 
